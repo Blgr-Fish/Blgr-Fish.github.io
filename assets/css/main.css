@@ -1670,3 +1670,8 @@ input, select, textarea {
 			box-sizing: border-box; /* Inclut les bordures et les marges dans la largeur définie */
 			padding: 10px; /* Espace intérieur pour les éléments de langue */
 		}
+
+		.custom-icon{
+			font-size: 350%;
+			 margin-top: 18%;
+		}
