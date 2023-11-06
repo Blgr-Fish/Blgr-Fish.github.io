@@ -1660,15 +1660,22 @@ input, select, textarea {
 			opacity: 0;
 		}
 
-		.languages-container {
+		.skills-container {
 			display: flex;
 			flex-wrap: wrap;
 		}
 		
-		.language {
+		.skills {
 			width: 50%; /* Chaque langue occupe la moitié de la largeur de son conteneur parent */
 			box-sizing: border-box; /* Inclut les bordures et les marges dans la largeur définie */
 			padding: 10px; /* Espace intérieur pour les éléments de langue */
 		}
 
 		
+		.svg-icon {
+			width: 2em; 
+			height: 2em; 
+			vertical-align: middle;
+			margin-right: 0.5em;
+			fill: #ffffff; 
+		}
