@@ -76,13 +76,13 @@ const goToProject = (index: number) => {
 // Drag/Swipe functionality
 const onDragStart = (e: MouseEvent | TouchEvent) => {
   isDragging.value = true
-  startX.value = 'touches' in e ? e.touches[0].clientX : e.clientX
+  startX.value = 'touches' in e ? (e.touches[0]?.clientX ?? 0) : e.clientX
   prevTranslate.value = currentTranslate.value
 }
 
 const onDragMove = (e: MouseEvent | TouchEvent) => {
   if (!isDragging.value) return
-  const currentX = 'touches' in e ? e.touches[0].clientX : e.clientX
+  const currentX = 'touches' in e ? (e.touches[0]?.clientX ?? 0) : e.clientX
   currentTranslate.value = prevTranslate.value + currentX - startX.value
 }
 
@@ -284,7 +284,7 @@ onMounted(() => {
           
           <div class="carousel-dots">
             <button 
-              v-for="(project, index) in projects" 
+              v-for="(_project, index) in projects" 
               :key="index" 
               class="dot" 
               :class="{ active: index === currentProjectIndex }"
