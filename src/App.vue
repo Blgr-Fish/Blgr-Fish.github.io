@@ -8,7 +8,7 @@ const formations = ref([
     school: 'Nantes Université',
     degree: 'Master Informatique',
     period: 'Sept. 2025 - Juil. 2027',
-    description: null,
+    description: 'Option Génie Logiciel (ALMA)',
     skills: null
   },
   {
@@ -42,13 +42,13 @@ const projects = ref([
     tags: ['Cybersécurité', 'Hacking éthique'],
     link: null,
     date: 'Déc. 2023',
-    image: '/media/images/projects/security.jpg'
+    image: '/media/images/projects/NantesUniversite.png'
   },
   {
     title: 'Jeu Vidéo 2D en Java',
-    description: 'Création d\'un shoot\'em up spatial "Galactic Shooter" en équipe de 3, utilisant JavaFX, Maven et GitLab pour la gestion du projet.',
+    description: 'Création d\'un shoot\'em up spatial "Galactic Shooter" en équipe de 3, utilisant JavaFX et Maven.',
     tags: ['Java', 'JavaFX', 'Maven', 'Git'],
-    link: 'https://bit.ly/Galactic-Shooter',
+    link: 'https://github.com/Blgr-Fish/Galactic-Shooter',
     date: 'Oct. 2023',
     image: '/media/images/projects/GalacticShooter.png'
   },
@@ -101,12 +101,10 @@ const onDragEnd = () => {
   prevTranslate.value = 0
 }
 
-// Calculer la position relative pour le défilement infini
 const getSlideOffset = (index: number) => {
   const total = projects.value.length
   let offset = index - currentProjectIndex.value
   
-  // Ajuster pour le défilement infini
   if (offset > total / 2) offset -= total
   if (offset < -total / 2) offset += total
   
@@ -122,11 +120,16 @@ const toggleDarkMode = () => {
 
 // Scroll animations
 onMounted(() => {
-  // Load theme preference
-  const savedTheme = localStorage.getItem('theme') || 'light'
+  const savedTheme = localStorage.getItem('theme') || 'dark'
   isDarkMode.value = savedTheme === 'dark'
   document.documentElement.setAttribute('data-theme', savedTheme)
 
+  // Autorise les transitions après le premier rendu
+  requestAnimationFrame(() => {
+    document.documentElement.classList.remove('no-transition')
+  })
+
+  // IntersectionObserver inchangé
   const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
@@ -142,7 +145,6 @@ onMounted(() => {
     })
   }, observerOptions)
 
-  // Observe all elements with animate class
   document.querySelectorAll('.animate').forEach((el) => {
     observer.observe(el)
   })
@@ -194,22 +196,22 @@ onMounted(() => {
 
     <section id="about" class="section section-alt">
       <div class="container">
-        <h2 class="section-title animate animate-fade-up">À propos</h2>
+        <h2 class="section-title animate animate-fade-up">Qui suis-je ?</h2>
         <div class="about-content">
           <p class="about-text animate animate-fade-up delay-1">
-            Passionné par l'informatique, je me spécialise dans le développement logiciel 
-            et la création de solutions robustes et performantes. Mon approche combine 
-            rigueur technique et sensibilité pour le design, afin de livrer des produits 
-            qui font la différence.
+            Je m’intéresse à l’informatique pour ses aspects logiques et structurels, et pour la manière dont des systèmes
+            cohérents peuvent émerger de règles simples. J’aime comprendre comment les choses fonctionnent réellement.
           </p>
           <p class="about-text animate animate-fade-up delay-2">
-            J'apprécie particulièrement la cybersécurité et les défis qu'elle représente. 
-            Actuellement, je me concentre sur le développement full-stack avec une expertise 
-            en langages bas niveau (C, systèmes Unix) et en technologies web modernes.
+            La cybersécurité m’attire pour la rigueur qu’elle demande et pour l’analyse précise des mécanismes internes
+            d’un système. Comprendre les engrenages de ces outils complexes, et réussir à en contourner les principes, voilà quelque chose qui me passionne.
           </p>
         </div>
       </div>
     </section>
+
+
+
 
     <section id="formations" class="section">
       <div class="container">
@@ -268,7 +270,7 @@ onMounted(() => {
                   <span v-for="tag in project.tags" :key="tag" class="tag">{{ tag }}</span>
                 </div>
                 <a v-if="project.link" :href="project.link" target="_blank" rel="noopener" class="project-link">
-                  Voir le projet →
+                  Voir le projet
                 </a>
               </div>
             </article>
@@ -481,7 +483,7 @@ onMounted(() => {
 }
 
 .btn-primary:hover {
-  background: #0077ed;
+  background: var(--accent-hover);
   opacity: 1;
 }
 
@@ -564,7 +566,7 @@ onMounted(() => {
 
 .formation-content:hover {
   transform: translateX(8px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px var(--shadow-md);
 }
 
 .formation-period {
@@ -690,7 +692,7 @@ onMounted(() => {
   overflow: hidden;
   opacity: 0;
   pointer-events: none;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px var(--shadow-sm);
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s ease;
 }
 
@@ -701,11 +703,11 @@ onMounted(() => {
 .project-card.active {
   opacity: 1;
   pointer-events: auto;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 25px 50px var(--shadow-lg);
 }
 
 .project-card.active:hover {
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 30px 60px var(--shadow-xl);
 }
 
 .project-card.hidden {
@@ -717,7 +719,7 @@ onMounted(() => {
   height: 240px;
   background-size: cover;
   background-position: center;
-  background-color: #64d2ff;
+  background-color: var(--image-placeholder);
 }
 
 .project-content {
