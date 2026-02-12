@@ -127,11 +127,7 @@ const toggleDarkMode = () => {
 
 const openCV = () => {
   if (window.matchMedia('(max-width: 768px)').matches) {
-    const pdfWindow = window.open(cvUrl, '_blank', 'noopener,noreferrer')
-
-    if (!pdfWindow) {
-      window.location.href = cvUrl
-    }
+    window.open(cvUrl, '_blank')
 
     return
   }
