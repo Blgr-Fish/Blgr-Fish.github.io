@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 
 const isDarkMode = ref(false)
 const showCV = ref(false)
+const cvUrl = '/CV.pdf'
 
 const formations = ref([
   {
@@ -124,6 +125,20 @@ const toggleDarkMode = () => {
   localStorage.setItem('theme', isDarkMode.value ? 'dark' : 'light')
 }
 
+const openCV = () => {
+  if (window.matchMedia('(max-width: 768px)').matches) {
+    const pdfWindow = window.open(cvUrl, '_blank', 'noopener,noreferrer')
+
+    if (!pdfWindow) {
+      window.location.href = cvUrl
+    }
+
+    return
+  }
+
+  showCV.value = true
+}
+
 onMounted(() => {
   const savedTheme = localStorage.getItem('theme') || 'dark'
   isDarkMode.value = savedTheme === 'dark'
@@ -193,7 +208,7 @@ onMounted(() => {
         <div class="hero-actions animate animate-fade-up delay-3">
           <a href="#projects" class="btn btn-primary"><span class="btn-text">Voir mes projets</span></a>
           <a href="#contact" class="btn btn-secondary"><span class="btn-text">Me contacter</span></a>
-          <button class="btn btn-secondary" @click="showCV = true"><span class="btn-text">Voir mon CV</span></button>
+          <button class="btn btn-secondary" @click="openCV"><span class="btn-text">Voir mon CV</span></button>
         </div>
       </div>
     </section>
@@ -335,7 +350,7 @@ onMounted(() => {
               </button>
             </div>
           </div>
-          <iframe src="/CV.pdf" class="cv-iframe" title="CV de Ziad Ijja"></iframe>
+          <iframe :src="cvUrl" class="cv-iframe" title="CV de Ziad Ijja"></iframe>
         </div>
       </div>
     </Teleport>
@@ -893,6 +908,83 @@ html[data-theme="dark"] .social-icon.linkedin {
 
   .nav-right {
     gap: 1rem;
+  }
+
+  .carousel-container {
+    max-width: 100%;
+  }
+
+  .carousel-track {
+    min-height: 0;
+  }
+
+  .project-card {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    margin-left: 0;
+    border-radius: 16px;
+  }
+
+  .project-card:not(.active) {
+    display: none;
+  }
+
+  .project-card.active {
+    transform: none !important;
+  }
+
+  .project-image {
+    height: 160px;
+  }
+
+  .project-content {
+    padding: 1.25rem;
+  }
+
+  .project-title {
+    font-size: 1.2rem;
+  }
+
+  .project-description {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .project-tags {
+    gap: 0.35rem;
+  }
+
+  .tag {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+  }
+
+  .carousel-controls {
+    display: grid;
+    grid-template-columns: 40px 1fr 40px;
+    align-items: center;
+    gap: 0.75rem;
+    max-width: 240px;
+    margin: 1.5rem auto 0;
+    padding: 0 0.25rem;
+  }
+
+  .carousel-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .carousel-dots {
+    gap: 0.5rem;
+  }
+
+  .carousel-btn:hover {
+    background: var(--surface);
+    color: var(--text);
+    border-color: var(--secondary);
   }
 }
 
