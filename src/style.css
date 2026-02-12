@@ -5,7 +5,6 @@
 }
 
 :root {
-  /* Default theme (dark) */
   --text: #cbcaed;
   --background: #090920;
   --primary: #9383d8;
@@ -57,7 +56,7 @@ html[data-theme="dark"] {
   --secondary: #6f6e81;
   --accent: #8d56cd;
   --accent-hover: #975eda;
-  --surface: #1a1a3a;
+  --surface: #12122c;
   --text-secondary: #9190a3;
   --nav-bg: #090920;
   --nav-border: rgba(203, 202, 237, 0.1);
@@ -103,7 +102,6 @@ a:hover {
   opacity: 0.8;
 }
 
-/* Typography */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -128,7 +126,6 @@ p {
   line-height: 1.6;
 }
 
-/* Utility classes */
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -142,6 +139,3 @@ p {
 .section-alt {
   background-color: var(--surface);
 }
-
-
-

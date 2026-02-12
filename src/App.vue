@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 
 const isDarkMode = ref(false)
+const showCV = ref(false)
 
 const formations = ref([
   {
@@ -32,7 +33,7 @@ const projects = ref([
     title: 'Shell Unix en C',
     description: 'Développement d\'un shell interactif reproduisant les fonctionnalités d\'un shell Unix : exécution de commandes, redirections, historique persistant, gestion des processus et signaux POSIX.',
     tags: ['C', 'Unix', 'Shell', 'POSIX'],
-    link: 'https://github.com/Blgr-Fish/RogerLux_Cshell',
+    link: 'https://github.com/Ziad-Ijja/RogerLux_Cshell',
     date: 'Déc. 2025',
     image: '/media/images/projects/Cshell.png'
   },
@@ -48,9 +49,16 @@ const projects = ref([
     title: 'Jeu Vidéo 2D en Java',
     description: 'Création d\'un shoot\'em up spatial "Galactic Shooter" en équipe de 3, utilisant JavaFX et Maven.',
     tags: ['Java', 'JavaFX', 'Maven', 'Git'],
-    link: 'https://github.com/Blgr-Fish/Galactic-Shooter',
+    link: 'https://github.com/Ziad-Ijja/Galactic-Shooter',
     date: 'Oct. 2023',
     image: '/media/images/projects/GalacticShooter.png'
+  }, 
+  { title: 'Quiz Maker en Java', 
+    description: 'Création d\'une application de quiz en Java pour le Backend, et Angular pour le Frontend permettant de créer, gérer et jouer à des quiz personnalisés.', 
+    tags: ['Java', 'Java Spring Boot', 'JPA', 'OpenAPI Swagger', 'Docker/Podman'], 
+    link: 'https://github.com/Ziad-Ijja/Quiz-Maker', 
+    date: 'Déc. 2025', 
+    image: '/media/images/projects/QuizMaker.png'
   },
 ])
 
@@ -73,7 +81,6 @@ const goToProject = (index: number) => {
   currentProjectIndex.value = index
 }
 
-// Drag/Swipe functionality
 const onDragStart = (e: MouseEvent | TouchEvent) => {
   isDragging.value = true
   startX.value = 'touches' in e ? (e.touches[0]?.clientX ?? 0) : e.clientX
@@ -111,25 +118,21 @@ const getSlideOffset = (index: number) => {
   return offset
 }
 
-// Dark mode toggle
 const toggleDarkMode = () => {
   isDarkMode.value = !isDarkMode.value
   document.documentElement.setAttribute('data-theme', isDarkMode.value ? 'dark' : 'light')
   localStorage.setItem('theme', isDarkMode.value ? 'dark' : 'light')
 }
 
-// Scroll animations
 onMounted(() => {
   const savedTheme = localStorage.getItem('theme') || 'dark'
   isDarkMode.value = savedTheme === 'dark'
   document.documentElement.setAttribute('data-theme', savedTheme)
 
-  // Autorise les transitions après le premier rendu
   requestAnimationFrame(() => {
     document.documentElement.classList.remove('no-transition')
   })
 
-  // IntersectionObserver inchangé
   const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
@@ -155,7 +158,7 @@ onMounted(() => {
   <div class="portfolio">
     <nav class="nav">
       <div class="container nav-content">
-        <a href="#" class="nav-logo">Portfolio</a>
+        <a href="#" class="nav-logo">Ziad Ijja</a>
         <div class="nav-right">
           <div class="nav-links">
             <a href="#about">À propos</a>
@@ -186,10 +189,11 @@ onMounted(() => {
     <section class="hero">
       <div class="container hero-content">
         <h1 class="hero-title animate animate-fade-up delay-1">Ziad Ijja</h1>
-        <p class="hero-subtitle animate animate-fade-up delay-2">Étudiant en Master informatique à Nantes Université</p>
+        <p class="hero-subtitle animate animate-fade-up delay-2">Étudiant en Master Informatique (Génie Logiciel) à Nantes Université</p>
         <div class="hero-actions animate animate-fade-up delay-3">
-          <a href="#projects" class="btn btn-primary">Voir mes projets</a>
-          <a href="#contact" class="btn btn-secondary">Me contacter</a>
+          <a href="#projects" class="btn btn-primary"><span class="btn-text">Voir mes projets</span></a>
+          <a href="#contact" class="btn btn-secondary"><span class="btn-text">Me contacter</span></a>
+          <button class="btn btn-secondary" @click="showCV = true"><span class="btn-text">Voir mon CV</span></button>
         </div>
       </div>
     </section>
@@ -209,9 +213,6 @@ onMounted(() => {
         </div>
       </div>
     </section>
-
-
-
 
     <section id="formations" class="section">
       <div class="container">
@@ -311,10 +312,10 @@ onMounted(() => {
           Intéressé par une collaboration ? N'hésitez pas à me contacter.
         </p>
         <a href="mailto:ijjaziad@gmail.com" class="btn btn-primary btn-large animate animate-fade-up delay-2">
-          Envoyer un message
+          <span class="btn-text">Envoyer un message</span>
         </a>
         <div class="social-links animate animate-fade-up delay-3">
-          <a href="https://github.com/Blgr-Fish" target="_blank" rel="noopener" class="social-link" title="GitHub">
+          <a href="https://github.com/Ziad-Ijja" target="_blank" rel="noopener" class="social-link" title="GitHub">
             <img class="social-icon github" src="/media/icons/github-black.svg" alt="GitHub" />
           </a>
           <a href="https://www.linkedin.com/in/ziad-ijja" target="_blank" rel="noopener" class="social-link" title="LinkedIn">
@@ -323,6 +324,21 @@ onMounted(() => {
         </div>
       </div>
     </section>
+
+    <Teleport to="body">
+      <div v-if="showCV" class="cv-overlay" @click.self="showCV = false">
+        <div class="cv-viewer">
+          <div class="cv-toolbar">
+            <div class="cv-toolbar-actions">
+              <button class="cv-close-btn" @click="showCV = false" aria-label="Fermer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+          </div>
+          <iframe src="/CV.pdf" class="cv-iframe" title="CV de Ziad Ijja"></iframe>
+        </div>
+      </div>
+    </Teleport>
 
     <footer class="footer">
       <div class="container">
@@ -436,12 +452,6 @@ onMounted(() => {
   margin: 0 auto;
 }
 
-.hero-intro {
-  font-size: 1.25rem;
-  color: var(--accent);
-  margin-bottom: 1rem;
-}
-
 .hero-title {
   margin-bottom: 1.5rem;
   background: linear-gradient(135deg, var(--text) 0%, var(--secondary) 100%);
@@ -469,33 +479,60 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   padding: 0.875rem 1.75rem;
-  border-radius: 980px;
+  border-radius: 15px;
   font-size: 1rem;
   font-weight: 500;
-  transition: all 0.2s ease;
   cursor: pointer;
-  border: none;
+  border: 1px solid transparent;
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+  color: var(--text);
+  text-decoration: none;
+  transition: color 0.4s ease, border-color 0.4s ease;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.19, 1, 0.22, 1);
+  z-index: 0;
+}
+
+.btn:hover::before {
+  transform: scaleX(1);
+}
+
+.btn-text {
+  position: relative;
+  z-index: 1;
 }
 
 .btn-primary {
   background: var(--accent);
-  color: white;
+  border-color: var(--accent);
+  color: #fff;
 }
 
-.btn-primary:hover {
-  background: var(--accent-hover);
+.btn-primary::before,
+.btn-secondary::before {
+  background: var(--text);
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+  border-color: var(--text);
+  color: var(--background);
   opacity: 1;
 }
 
 .btn-secondary {
-  background: transparent;
-  border: 1px solid var(--secondary);
+  border-color: var(--secondary);
   color: var(--text);
-}
-
-.btn-secondary:hover {
-  border-color: var(--text);
-  opacity: 1;
 }
 
 .btn-large {
@@ -599,7 +636,6 @@ onMounted(() => {
   margin-top: 1rem;
 }
 
-/* Carousel Styles */
 .projects-section {
   overflow-x: clip;
 }
@@ -869,18 +905,6 @@ html[data-theme="dark"] .social-icon.linkedin {
   transform: translateY(40px);
 }
 
-.animate-scale {
-  transform: scale(0.9);
-}
-
-.animate-fade-left {
-  transform: translateX(-40px);
-}
-
-.animate-fade-right {
-  transform: translateX(40px);
-}
-
 .animate.animate-in {
   opacity: 1;
   transform: translateY(0) translateX(0) scale(1);
@@ -897,6 +921,88 @@ html[data-theme="dark"] .social-icon.linkedin {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+}
+
+.cv-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.cv-viewer {
+  width: 100%;
+  max-width: 900px;
+  height: 90vh;
+  background: var(--background);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+}
+
+.cv-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--nav-border);
+  flex-shrink: 0;
+}
+
+.cv-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cv-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cv-close-btn:hover {
+  background: var(--surface);
+}
+
+.cv-iframe {
+  flex: 1;
+  width: 100%;
+  border: none;
+}
+
+@media (max-width: 768px) {
+  .cv-overlay {
+    padding: 0;
+  }
+
+  .cv-viewer {
+    max-width: 100%;
+    height: 100vh;
+    border-radius: 0;
   }
 }
 </style>
