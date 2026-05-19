@@ -57,7 +57,7 @@ const projects = ref([
   { title: 'Quiz Maker en Java', 
     description: 'Création d\'une application de quiz en Java pour le Backend, et Angular pour le Frontend permettant de créer, gérer et jouer à des quiz personnalisés.', 
     tags: ['Java', 'Java Spring Boot', 'JPA', 'OpenAPI Swagger', 'Docker/Podman'], 
-    link: 'https://github.com/Ziad-Ijja/Quiz-Maker', 
+    link: 'https://github.com/Ziad-Ijja/QuizMaker', 
     date: 'Déc. 2025', 
     image: '/media/images/projects/QuizMaker.png'
   },
